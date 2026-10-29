@@ -16,7 +16,7 @@ export default function StoryTopBar() {
         transition={{ delay: 0.4, duration: 0.6 }}
         className={`fixed z-40 ${CORNER_POSITION}`}
       >
-        <Link to={ROUTES.home} className={FAIRY_BUTTON}>
+        <Link to={ROUTES.home} className={`${FAIRY_BUTTON} btn-fairy--compact`}>
           Return
         </Link>
       </motion.div>

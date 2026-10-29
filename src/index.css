@@ -241,6 +241,19 @@ label:has(input) {
   letter-spacing: 0.25em;
   text-transform: uppercase;
 }
+
+@media (width < 40rem) {
+  .btn-fairy--compact {
+    padding: 0.4rem 1rem;
+    border-radius: 11px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.2em;
+  }
+  .btn-fairy--compact::before {
+    inset: 3px;
+    border-radius: 8px;
+  }
+}
 .btn-fairy svg {
   width: 1.15em;
   height: 1.15em;
