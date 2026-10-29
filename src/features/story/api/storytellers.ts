@@ -23,14 +23,18 @@ const toModelList = (list: string, limit: number) =>
     .filter(Boolean)
     .slice(0, limit);
 
-const GEMINI_MODELS = toModelList(import.meta.env.VITE_GEMINI_MODELS || "gemini-3.8-flash,gemini-3.5-flash", 2);
-const OPENROUTER_MODELS = toModelList(
-  import.meta.env.VITE_TEXT_MODELS || "google/gemma-4-31b-it:free,nvidia/nemotron-3-ultra-550b-a55b:free,google/gemma-4-26b-a4b-it:free",
-  3,
+const GEMINI_MODELS = toModelList(
+  import.meta.env.VITE_GEMINI_MODELS || "gemini-3.5-flash-lite,gemini-flash-lite-latest,gemini-3.5-flash",
+  4,
 );
+// Nemotron is left out on purpose: its Greek is full of invented words, and a "busy, try again"
+// message is better than a story with broken grammar.
+const OPENROUTER_MODELS = toModelList(import.meta.env.VITE_TEXT_MODELS || "google/gemma-4-31b-it:free,google/gemma-4-26b-a4b-it:free", 3);
 
 // Gemini writes the best stories in every language, so it goes first; each model has its own free
-// daily limit, and OpenRouter's free models take over once Gemini's are used up.
+// daily limit and its own busy spells, and OpenRouter's free Gemma models take over after them.
+// The Lite models lead because they start writing in about 2s; the full Flash model can think for
+// 40s first. Gemini 3.8 Flash is left out: it took 20s just to report that it was busy.
 export const STORYTELLERS: Storyteller[] = [
   ...GEMINI_MODELS.map((model) => ({ baseUrl: GEMINI_URL, model, reasoningOptions: GEMINI_REASONING })),
   ...OPENROUTER_MODELS.map((model) => ({ baseUrl: OPENROUTER_URL, model, reasoningOptions: OPENROUTER_REASONING })),

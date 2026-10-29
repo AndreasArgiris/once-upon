@@ -38,6 +38,18 @@ describe("writeStoryText", () => {
     expect(secondTry).toBe(firstTry);
   });
 
+  it("tries the same model again when its story is cut off partway", async () => {
+    mockedStreamChat.mockResolvedValueOnce('{"title":"T","paragraphs":[{"text":"Once').mockResolvedValue(ANSWER);
+    await writeStoryText(DEFAULT_FILTERS, undefined, undefined);
+    expect(calledModels()).toEqual([STORYTELLERS[0].model, STORYTELLERS[0].model]);
+  });
+
+  it("gives up on a model after repeated cut-offs", async () => {
+    mockedStreamChat.mockResolvedValueOnce("{").mockResolvedValueOnce("{").mockResolvedValueOnce("{").mockResolvedValue(ANSWER);
+    await writeStoryText(DEFAULT_FILTERS, undefined, undefined);
+    expect(calledModels()).toEqual([...Array<string>(3).fill(STORYTELLERS[0].model), STORYTELLERS[1].model]);
+  });
+
   it("reports the last error when every storyteller fails", async () => {
     for (const storyteller of STORYTELLERS) mockedStreamChat.mockRejectedValueOnce(new ChatError(`${storyteller.model} busy`, 429));
     const lastModel = STORYTELLERS[STORYTELLERS.length - 1].model;
