@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <radialGradient id="glow">
+      <stop stop-color="#fff" stop-opacity=".9"/>
+      <stop offset=".25" stop-color="#fff" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="5"/>
+    </filter>
+    <g id="spark" stroke="#fff" stroke-linecap="round">
+      <path d="M0-15V15M-15 0H15" stroke-width="1.5"/>
+      <path d="M-7-7L7 7M7-7L-7 7" stroke-width=".7" opacity=".75"/>
+    </g>
+  </defs>
+
+  <!-- Soft light particles -->
+  <g fill="url(#glow)" filter="url(#softGlow)">
+    <circle cx="270" cy="210" r="24"/>
+    <circle cx="620" cy="370" r="18"/>
+    <circle cx="1050" cy="180" r="26"/>
+    <circle cx="1320" cy="490" r="20"/>
+    <circle cx="850" cy="680" r="23"/>
+    <circle cx="420" cy="720" r="16"/>
+  </g>
+
+  <!-- Crisp sparkles -->
+  <g opacity=".95">
+    <use href="#spark" x="270" y="210"/>
+    <use href="#spark" x="620" y="370" transform="translate(620 370) scale(.65) translate(-620 -370)"/>
+    <use href="#spark" x="1050" y="180" transform="translate(1050 180) scale(.8) translate(-1050 -180)"/>
+    <use href="#spark" x="1320" y="490" transform="translate(1320 490) scale(.55) translate(-1320 -490)"/>
+    <use href="#spark" x="850" y="680" transform="translate(850 680) scale(.7) translate(-850 -680)"/>
+  </g>
+
+  <!-- Tiny floating lights -->
+  <g fill="#fff">
+    <circle cx="190" cy="355" r="2.5" opacity=".8"/>
+    <circle cx="470" cy="275" r="2" opacity=".65"/>
+    <circle cx="770" cy="230" r="3" opacity=".8"/>
+    <circle cx="960" cy="450" r="2" opacity=".7"/>
+    <circle cx="1160" cy="330" r="2.5" opacity=".75"/>
+    <circle cx="1450" cy="260" r="2" opacity=".7"/>
+    <circle cx="710" cy="590" r="2.5" opacity=".8"/>
+    <circle cx="350" cy="590" r="2" opacity=".65"/>
+    <circle cx="1240" cy="720" r="3" opacity=".75"/>
+  </g>
+</svg>

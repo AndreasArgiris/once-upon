@@ -1,0 +1,374 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Kawoszeh";
+  src: url("/media/Kawoszeh-OE63.ttf") format("truetype");
+  font-display: swap;
+}
+
+@theme {
+  --font-brand: "Kawoszeh", "Fraunces", Georgia, serif;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Nunito", system-ui, sans-serif;
+
+  --color-night: #120d08;
+  --color-bark: #2a1c10;
+  --color-bark-light: #3d2a18;
+  --color-amber: #e7b65c;
+  --color-amber-soft: #f3d79a;
+  --color-ember: #c9772f;
+  --color-moss: #7d9a48;
+  --color-parchment: #f6ecd4;
+  --color-cream: #fff3cf;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Firefox only: newer Chrome also reads scrollbar-color, which would override the gradient thumb below */
+@supports (-moz-appearance: none) {
+  html {
+    scrollbar-color: var(--color-amber) var(--color-night);
+  }
+}
+
+/* Gilded scrollbar on a dark bark track (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-night);
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid var(--color-night);
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--color-amber-soft), var(--color-amber) 50%, var(--color-ember));
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--color-cream), var(--color-amber-soft) 50%, var(--color-amber));
+}
+::-webkit-scrollbar-corner {
+  background: var(--color-night);
+}
+
+body {
+  background: var(--color-night);
+  color: var(--color-parchment);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Everything clickable gets the hand cursor (Tailwind v4 resets buttons to the default arrow) */
+button:not(:disabled),
+[role="button"],
+a[href],
+select,
+summary,
+label:has(input) {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-night);
+}
+
+/* Glowing, gilded heading text */
+.text-gilded {
+  background: linear-gradient(180deg, var(--color-cream) 0%, var(--color-amber) 55%, #b07a2c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 12px --alpha(var(--color-amber) / 35%));
+}
+
+/* Dark wooden glass panel for the generator */
+.panel {
+  background:
+    linear-gradient(180deg, --alpha(var(--color-bark) / 82%), --alpha(var(--color-night) / 90%)),
+    radial-gradient(circle at 50% 0%, --alpha(var(--color-amber) / 12%), transparent 60%);
+  border: 1px solid --alpha(var(--color-amber) / 25%);
+  box-shadow:
+    0 30px 80px -20px rgb(0 0 0 / 0.7),
+    inset 0 1px 0 --alpha(var(--color-cream) / 8%);
+}
+
+/* Soft edge fades for background imagery — multi-stop so the falloff eases instead of banding */
+.fade-bottom {
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 45%,
+    rgb(0 0 0 / 0.8) 60%,
+    rgb(0 0 0 / 0.45) 75%,
+    rgb(0 0 0 / 0.15) 89%,
+    transparent 100%
+  );
+}
+/* Star wand loader */
+.star-wand {
+  overflow: visible;
+  filter: drop-shadow(0 0 6px --alpha(var(--color-amber) / 55%)) drop-shadow(0 0 1px rgb(253 247 228 / 0.6));
+}
+.star-wand__wave {
+  transform-box: fill-box;
+  transform-origin: 95% 95%; /* the wand's handle, bottom-right of the artwork */
+  animation: wand-wave 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.star-wand__sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wand-twinkle 1.8s ease-in-out infinite;
+}
+.star-wand__trail {
+  animation: wand-shimmer 2.4s ease-in-out infinite;
+}
+@keyframes wand-wave {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(9deg);
+  }
+}
+@keyframes wand-twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+    transform: scale(0.4);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.25);
+  }
+}
+@keyframes wand-shimmer {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Storybook plaque buttons: carved wood, gilded double border, a sweep of light on hover */
+.btn-fairy {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.95rem 2.25rem;
+  border-radius: 14px;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--color-amber-soft);
+  text-shadow: 0 1px 0 rgb(0 0 0 / 0.6);
+  background:
+    radial-gradient(120% 140% at 50% 0%, --alpha(var(--color-amber) / 22%), transparent 60%),
+    linear-gradient(180deg, #4a321c 0%, var(--color-bark) 55%, #1c130a 100%);
+  border: 1px solid --alpha(var(--color-amber) / 75%);
+  box-shadow:
+    inset 0 1px 0 --alpha(var(--color-cream) / 25%),
+    inset 0 -2px 8px rgb(0 0 0 / 0.45),
+    0 12px 30px -12px rgb(0 0 0 / 0.85);
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s,
+    border-color 0.35s,
+    color 0.35s;
+  cursor: pointer;
+}
+.btn-fairy::before {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-radius: 10px;
+  border: 1px solid --alpha(var(--color-amber) / 32%);
+  pointer-events: none;
+}
+.btn-fairy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 35%, --alpha(var(--color-cream) / 20%) 50%, transparent 65%);
+  transform: translateX(-120%);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.btn-fairy:hover:not(:disabled) {
+  transform: translateY(-2px);
+  color: var(--color-cream);
+  border-color: var(--color-amber-soft);
+  box-shadow:
+    inset 0 1px 0 --alpha(var(--color-cream) / 30%),
+    inset 0 -2px 8px rgb(0 0 0 / 0.45),
+    0 16px 34px -12px rgb(0 0 0 / 0.9),
+    0 0 26px --alpha(var(--color-amber) / 35%);
+}
+.btn-fairy:hover:not(:disabled)::after {
+  transform: translateX(120%);
+}
+.btn-fairy:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+.btn-fairy:focus-visible {
+  outline: 2px solid var(--color-amber-soft);
+  outline-offset: 3px;
+}
+.btn-fairy:disabled {
+  opacity: 0.65;
+  cursor: progress;
+}
+.btn-fairy--moss {
+  color: var(--color-parchment);
+  background:
+    radial-gradient(120% 140% at 50% 0%, --alpha(var(--color-amber-soft) / 18%), transparent 60%),
+    linear-gradient(180deg, #5d7432 0%, #3b4c1f 55%, #28340f 100%);
+}
+/* Compact small-caps variant (Cancel, Return, Create story) */
+.btn-fairy--caps {
+  padding: 0.625rem 1.75rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.btn-fairy svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+  color: var(--color-amber);
+}
+
+/* Twinkling spark at the start of each group of lines */
+.spark {
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: drop-shadow(0 0 6px --alpha(var(--color-amber) / 70%));
+  animation: spark-twinkle 2.4s ease-in-out infinite;
+}
+@keyframes spark-twinkle {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.7) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1) rotate(45deg);
+  }
+}
+
+/* White sparkle fields in the gutters beside the tale; two layers per side breathe in and out out of step */
+.side-sparkles {
+  background: url("/media/white-sparkles.svg") center / 260% auto repeat-y;
+  /* Fade every edge so sparkles drift out softly instead of being sliced off by the strip's bounds */
+  mask-image:
+    linear-gradient(to bottom, transparent, #000 25%, #000 75%, transparent),
+    linear-gradient(to right, transparent, #000 30%, #000 70%, transparent);
+  mask-composite: intersect;
+  opacity: 0;
+  animation: sparkles-breathe 7s ease-in-out infinite;
+}
+.side-sparkles--alt {
+  background-position: 30% 40%;
+  background-size: 200% auto;
+  animation-delay: -3.5s;
+}
+.side-sparkles--right {
+  transform: scaleX(-1);
+}
+@keyframes sparkles-breathe {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+/* Bottom wallpaper melts upward into the night */
+.fade-top {
+  mask-image: linear-gradient(to top, #000 0%, rgb(0 0 0 / 0.6) 45%, transparent 100%);
+}
+
+/* Hero shading: a vignette so the type reads against the light shaft, and a melt into the section below */
+.hero-vignette {
+  background: radial-gradient(
+    ellipse at 50% 35%,
+    transparent 0%,
+    --alpha(var(--color-night) / 35%) 45%,
+    --alpha(var(--color-night) / 90%) 100%
+  );
+}
+.hero-melt {
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    --alpha(var(--color-night) / 20%) 25%,
+    --alpha(var(--color-night) / 50%) 50%,
+    --alpha(var(--color-night) / 80%) 75%,
+    var(--color-night) 100%
+  );
+}
+
+/* Warm glow behind the story maker form */
+.story-maker-glow {
+  background: radial-gradient(
+    ellipse 70% 45% at 50% 38%,
+    --alpha(var(--color-amber) / 9%) 0%,
+    --alpha(var(--color-amber) / 6%) 30%,
+    --alpha(var(--color-amber) / 3%) 55%,
+    --alpha(var(--color-amber) / 1%) 75%,
+    transparent 100%
+  );
+}
+
+.not-found-vignette {
+  background: radial-gradient(ellipse at 50% 45%, --alpha(var(--color-night) / 40%), --alpha(var(--color-night) / 95%) 75%);
+}
+
+/* Golden halo around each drifting fairy-dust mote */
+.fairy-mote {
+  box-shadow: 0 0 10px 3px --alpha(var(--color-amber-soft) / 60%);
+}
+
+/* Raised initial: the big letter shares the first line's baseline, so the text sits level with its foot */
+.drop-cap::first-letter {
+  font-family: var(--font-display);
+  font-size: 3.2em;
+  line-height: 1;
+  padding-inline-end: 0.06em;
+  color: var(--color-amber);
+  font-weight: 700;
+}
+
+select option {
+  background: var(--color-bark);
+  color: var(--color-parchment);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .side-sparkles {
+    animation: none !important;
+    opacity: 0.3;
+  }
+}
